@@ -1,4 +1,4 @@
-# Customer segmentation based on RFM method
+# Customer segmentation based on RFM method and K-Means clustering
 
 ### General info
 This project contains customer segmentation by using the RFM method and K-Means clustering. The dataset includes sample sales data based on retail analytics. We use the RFM method and the k-means clustering algorithm for creating customer segments based on data provided.
@@ -13,7 +13,9 @@ Almost every company that sells products or services stores data of shopping. Th
 
 The project is created with:
 
-    Python 3.6
-    libraries: pandas, numpy, sklearn, scipy, seaborn, matplotlib.
+- Python 3.6
+- libraries: pandas, numpy, sklearn, scipy, seaborn, matplotlib.
+
+**Running the project:**
 
 To run this project use Jupyter Notebook or Google Colab.
