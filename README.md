@@ -1,8 +1,8 @@
 # Customer segmentation based on RFM method and K-Means clustering
 
 ### General info
-This project contains customer segmentation by using the RFM method and K-Means clustering. The dataset includes sample sales data based on retail analytics. We use the RFM method and the k-means clustering algorithm for creating customer segments based on data provided.
-
+This project contains customer segmentation by combining the RFM method and K-Means clustering. The dataset includes sample sales data based on retail analytics. We use the RFM method (RFM score) and the k-means clustering algorithm for creating customer segments based on data provided.
+ 
 The dataset comes from Kaggle and can be find [here](https://www.kaggle.com/kyanyoga/sample-sales-data).
 
 ### Motivation
