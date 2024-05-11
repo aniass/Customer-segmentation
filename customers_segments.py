@@ -1,5 +1,6 @@
 """
-Customer segmentation based on RFM method and K-Means clustering
+Customer segmentation based on RFM method and K-Means clustering.
+Model: RFM scoring + K-Means clustering
 """
 
 import pandas as pd
@@ -9,20 +10,23 @@ import datetime as dt
 from sklearn.cluster import KMeans
 from mpl_toolkits.mplot3d import Axes3D
 
-URL = r'C:\Python Scripts\Datasets\sales_data_sample.csv'
+URL = r'Data\sales_data_sample.csv'
 
 
 def read_data(path):
     '''Read and preprocess data'''
     df = pd.read_csv(path, encoding = 'unicode_escape')
+    # Select relevant columns
     col =['CUSTOMERNAME', 'ORDERNUMBER', 'ORDERDATE', 'SALES']
+    # Create a new DataFrame with selected columns
     data = df[col]
+    # Convert 'ORDERDATE' to datetime
     data['ORDERDATE'] = pd.to_datetime(data['ORDERDATE'], errors='coerce')
     return data
 
 
 def create_rfm_table(df, reference_date):
-    '''Create the RFM Table: Calculate recency, frequency, and monetary value'''
+    '''Create the RFM Table: calculate recency, frequency, and monetary value'''
     rfm_df = df.groupby('CUSTOMERNAME').agg({'ORDERDATE': lambda x: (reference_date - x.max()).days,
                                              'ORDERNUMBER': 'count',
                                              'SALES': 'sum'})
@@ -31,8 +35,8 @@ def create_rfm_table(df, reference_date):
 
 
 def calculate_rfm_scores(df):
-    '''Model: RFM scoring + K-Means clustering'''
-    # Transformation of variables:
+    '''Calculate RFM scores'''
+    # Apply the percentiles of the distribution of the given variable to  calculate RFM scores
     r = pd.qcut(df.Recency, 4, labels = list(range(0,4)))
     f = pd.qcut(df.Frequency, 4, labels = list(range(0,4)))
     m = pd.qcut(df.MonetaryValue, 4, labels = list(range(0,4)))
@@ -41,8 +45,8 @@ def calculate_rfm_scores(df):
 
 
 def show_elbow_plot(rfm_df_cutted):
+    '''Display the elbow plot for KMeans clustering'''
     rfm_df_raw = rfm_df_cutted.values
-    # K-Means clustering model for elbow method
     group = []
     for i in range(1, 15):
         kmeans = KMeans(n_clusters=i)
@@ -56,7 +60,8 @@ def show_elbow_plot(rfm_df_cutted):
     plt.show()
 
 
-def segmentation_model(rfm_df_cutted, rfm_df, n_clusters=4):
+def perform_kmeans_clustering(rfm_df_cutted, rfm_df, n_clusters=4):
+    '''KMeans clustering model: perform KMeans clustering on the RFM data'''
     rfm_df_raw = rfm_df_cutted.values 
     model = KMeans(n_clusters=n_clusters, init='k-means++', max_iter=300)
     groups = model.fit_predict(rfm_df_raw)
@@ -78,7 +83,8 @@ def visualize_groups(df):
         ys = group_data['MonetaryValue']
         zs = group_data['Frequency']
         ax.scatter(xs, ys, zs, s=50, alpha=0.6, edgecolors='w', label=group_name)
-
+        
+    # Set labels and title
     ax.set_xlabel('Recency')
     ax.set_zlabel('Frequency')
     ax.set_ylabel('MonetaryValue')
@@ -88,7 +94,8 @@ def visualize_groups(df):
 
 
 def generate_summary(data):
-    # Mapping of group numbers to segment names
+    '''Generate a summary of the segmentation'''
+    # Add 'SegmentName' column
     segment_mapping = {0: 'departing', 1: 'active', 2: 'inactive', 3: 'new'}
     data['SegmentName'] = data['groups'].map(segment_mapping)
     # Display the first few rows of the DataFrame
@@ -101,10 +108,10 @@ def generate_summary(data):
     print(data.agg(['mean']))
     print("\nThe sum of the values for each group:")
     # Display the sum of the values for each group
-    data.groups.value_counts().plot(kind='bar', figsize=(6,4), title='The sum of the values of individual groups ')
+    data.groups.value_counts().plot(kind='bar', figsize=(6,4), title='The sum of the values of individual groups')
     plt.show()
     # Save recommendations to a CSV file
-    #data.to_csv('C:\Python Scripts\Projects_done\Market basket_segmentation\customers_segments.csv', index=False)  
+    data.to_csv(r'Segmentation_final\customers_segments.csv', index=False)  
 
 
 if __name__ == '__main__':
@@ -112,8 +119,8 @@ if __name__ == '__main__':
     reference_date = dt.datetime(2005, 5, 31)  # Define a reference date
     rfm_df = create_rfm_table(df, reference_date)
     rfm_df_cutted = calculate_rfm_scores(rfm_df)
-    #show_elbow_plot(rfm_df_cutted)
-    clustered_data = segmentation_model(rfm_df_cutted, rfm_df)
-    #visualize_groups(clustered_data)
+    show_elbow_plot(rfm_df_cutted)
+    clustered_data = perform_kmeans_clustering(rfm_df_cutted, rfm_df)
+    visualize_groups(clustered_data)
     generate_summary(clustered_data)
   
