@@ -36,7 +36,7 @@ def create_rfm_table(df, reference_date):
 
 def calculate_rfm_scores(df):
     '''Calculate RFM scores'''
-    # Apply the percentiles of the distribution of the given variable to  calculate RFM scores
+    # Apply the percentiles of the distribution of the given variable to calculate RFM scores
     r = pd.qcut(df.Recency, 4, labels = list(range(0,4)))
     f = pd.qcut(df.Frequency, 4, labels = list(range(0,4)))
     m = pd.qcut(df.MonetaryValue, 4, labels = list(range(0,4)))
