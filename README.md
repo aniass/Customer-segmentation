@@ -20,8 +20,8 @@ Almost every company that sells products or services stores data of shopping. Th
 - Monetary Value: Total money the customer spent per order.
 
 ## Project contains:
-- First approach - **Customer_segmentation.ipynb**
-- Second approach - **Segmentation_Kmeans.ipynb**
+- **Part 1**: First approach - **Customer_segmentation.ipynb**
+- **Part 2**: Second approach - **Segmentation_Kmeans.ipynb**
 - Python script with customer segmentation - **customers_segments.py**
 
 ## Technologies
