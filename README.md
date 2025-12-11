@@ -3,7 +3,9 @@
 ### The customer segmentation based on RFM method and K-Means clustering
 
 ## General info
-The project contains two methods of customer segmentation by combining the RFM method and K-Means clustering. The dataset includes sample sales data based on retail analytics. The analysis was performed in two approaches:
+The aim of the project was customer segmentation by using K-Means clustering. The analysis includes data analysis, data preparation and  two methods of customer segmentation by combining the RFM method and K-Means clustering. Finally received segmentation for four groups which they divided into four customer segments.
+
+The segmentation was performed in two approaches:
 - **the first** one uses RFM scoring (assigned RFM score) and K-means clustering;
 - **the second** raw calculated RFM variables and K-means clustering.
 
